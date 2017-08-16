@@ -1,0 +1,8 @@
+{
+  "name": "pr_viewer",
+  "version": "1.0.0",
+  "description": "A handy github PPR viewer / manager",
+  "main": "index.js",
+  "author": "Eugene Westbrook",
+  "license": "MIT"
+}
