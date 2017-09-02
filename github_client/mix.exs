@@ -7,6 +7,7 @@ defmodule GithubClient.Mixfile do
       version: "0.1.0",
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
+      preferred_cli_env: [espec: :test],
       deps: deps()
     ]
   end
@@ -22,7 +23,8 @@ defmodule GithubClient.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpotion, "~> 3.0.2"}
+      {:httpotion, "~> 3.0.2"},
+      {:espec, "~> 1.4.5", only: :test}
     ]
   end
 end
