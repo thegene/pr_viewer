@@ -24,7 +24,8 @@ defmodule GithubClient.Mixfile do
   defp deps do
     [
       {:httpotion, "~> 3.0.2"},
-      {:espec, "~> 1.4.5", only: :test}
+      {:espec, "~> 1.4.5", only: :test},
+      {:double, "~> 0.6.2", only: :test}
     ]
   end
 end
