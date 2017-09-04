@@ -1,4 +1,4 @@
-defmodule GithubClient.Mixfile do
+defmodule Client.Mixfile do
   use Mix.Project
 
   def project do
@@ -25,7 +25,8 @@ defmodule GithubClient.Mixfile do
     [
       {:httpotion, "~> 3.0.2"},
       {:espec, "~> 1.4.5", only: :test},
-      {:double, "~> 0.6.2", only: :test}
+      {:double, "~> 0.6.2", only: :test},
+      {:poison, "~> 3.1", only: :test}
     ]
   end
 end
