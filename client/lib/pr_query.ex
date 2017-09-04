@@ -1,7 +1,12 @@
 defmodule Client.PrQuery do
 
   def execute(http \\ HTTPotion) do
-    {:ok, get(http).body}
+    response = get(http)
+
+    case response.status_code do
+      200 -> {:ok, response.body}
+      _ -> {:error, response.body}
+    end
   end
 
   defp get(http) do

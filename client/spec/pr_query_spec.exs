@@ -27,5 +27,14 @@ defmodule Client.PrQuerySpec do
         expect(code).to eq(:ok)
       end
     end
+
+    context "which fails with an error" do
+      let fixture: "spec/fixtures/missing-user-agent-error.json"
+
+      it "returns an error status" do
+        {code, _} = subject()
+        expect(code).to eq(:error)
+      end
+    end
   end
 end
