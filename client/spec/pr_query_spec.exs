@@ -21,10 +21,19 @@ defmodule Client.PrQuerySpec do
 
     context "which is successful" do
       let fixture: "spec/fixtures/successful.json"
+      let :pr do
+        {:ok, pr_list} = subject()
+        Enum.at(pr_list, 0)
+      end
 
       it "returns an ok status" do
         {code, _} = subject()
         expect(code).to eq(:ok)
+      end
+
+      it "returns an item with a title" do
+        expect(pr["title"])
+          |> to(eq("Line Number Indexes Beyond 20 Not Displayed"))
       end
     end
 
@@ -34,6 +43,15 @@ defmodule Client.PrQuerySpec do
       it "returns an error status" do
         {code, _} = subject()
         expect(code).to eq(:error)
+      end
+
+      it "returns the error message" do
+        {:error, message} = subject()
+        expect(message)
+          |> to(eq("Request forbidden by administrative rules. " <>
+            "Please make sure your request has a User-Agent header " <>
+            "(http://developer.github.com/v3/#user-agent-required). " <>
+            "Check https://developer.github.com for other possible causes.\n"))
       end
     end
   end

@@ -1,16 +1,24 @@
 defmodule Client.PrQuery do
 
   def execute(http \\ HTTPotion) do
-    response = get(http)
+    response = call_api(http)
 
     case response.status_code do
-      200 -> {:ok, response.body}
+      200 -> {:ok, parse_pull_requests(response.body)}
       _ -> {:error, response.body}
     end
   end
 
-  defp get(http) do
+  defp call_api(http) do
     http.get(url(), headers: headers(), query: query())
+  end
+
+  defp parse_pull_requests(body) do
+    Enum.map(body["items"], fn(item) -> parse_single(item) end)
+  end
+
+  defp parse_single(item) do
+    item
   end
 
   defp url do
