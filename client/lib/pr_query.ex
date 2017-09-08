@@ -1,12 +1,18 @@
 defmodule Client.PrQuery do
+  require Poison
+  require IEx
 
   def execute(http \\ HTTPotion) do
     response = call_api(http)
-
+IEx.pry
     case response.status_code do
       200 -> {:ok, parse_pull_requests(response.body)}
       _ -> {:error, response.body}
     end
+  end
+
+  defp handle_response(response) do
+
   end
 
   defp call_api(http) do
@@ -14,7 +20,8 @@ defmodule Client.PrQuery do
   end
 
   defp parse_pull_requests(body) do
-    Enum.map(body["items"], fn(item) -> parse_single(item) end)
+    decoded = Poison.decode!(body)
+    Enum.map(decoded["items"], fn(item) -> parse_single(item) end)
   end
 
   defp parse_single(item) do

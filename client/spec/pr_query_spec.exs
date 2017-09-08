@@ -54,5 +54,16 @@ defmodule Client.PrQuerySpec do
             "Check https://developer.github.com for other possible causes.\n"))
       end
     end
+
+    context "which fails with a timeout" do
+      let :response, do:
+        %HTTPotion.ErrorResponse{message: "req_timedout"}
+
+      it "returns with a timeout message" do
+        {:error, message} = subject()
+        expect(message)
+          |> to(eq("Query request timed out"))
+      end
+    end
   end
 end

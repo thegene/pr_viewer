@@ -6,4 +6,8 @@ defmodule Client.Interactions.FetchPullRequests do
       _ -> {:error, "Query unsuccessful"}
     end
   end
+
+  def call do
+    call(query: Client.PrQuery)
+  end
 end
