@@ -3,26 +3,34 @@ defmodule Client.Edges.PrRequest do
 
   def execute(http \\ HTTPotion) do
     call_api(http)
-    |> parse_response
-    |> build_items
-    |> respond
+    |> parse_api_response
+    |> build_response
   end
 
-  defp parse_response(response) do
-    Poison.decode!(response.body)
+  defp parse_api_response(%{body: body, status_code: code}) do
+    parsed = Poison.decode!(body)
+
+    case code do
+      200 -> {:ok, parsed}
+      _ -> {:error_message, parsed}
+    end
   end
 
-  defp build_items(response) do
-    response["items"]
-    |> Enum.map(&(PullRequest.from_response_item(&1)))
+  defp build_response({:ok, api_response}) do
+    {:ok, api_response["items"] |> cast_items }
   end
 
-  defp respond(item_list) do
-    {:ok, item_list}
+  defp build_response({:error_message, message}) do
+    {:error, message |> String.replace("\n", "")}
   end
 
   defp call_api(http) do
     http.get(url(), headers: headers(), query: query())
+  end
+
+  defp cast_items(items) do
+    items
+    |> Enum.map(&(PullRequest.from_response_item(&1)))
   end
     
   defp url do

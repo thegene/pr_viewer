@@ -21,16 +21,11 @@ defmodule PrRequestSpec do
       |> allow(:get, fn(_url, _opts) -> response() end)
 
     context "which is successful" do
-
       let fixture: "spec/fixtures/successful.json"
 
-      let :successful_response do
-        {:ok, items} = subject()
-        items
-      end
-
       it "Returns a PulRequest with a title" do
-        [head | _] = successful_response()
+        {:ok, items} = subject()
+        [head | _] = items
 
         expect(head.title)
         |> to(eq("Line Number Indexes Beyond 20 Not Displayed"))
@@ -39,11 +34,6 @@ defmodule PrRequestSpec do
 
     context "which fails with an error message from github" do
       let fixture: "spec/fixtures/missing-user-agent-error.json"
-
-      it "returns an error status" do
-        {code, _} = subject()
-        expect(code).to eq(:error)
-      end
 
       it "returns the error message" do
         {:error, message} = subject()
