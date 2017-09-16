@@ -51,7 +51,7 @@ defmodule Client.PrQuerySpec do
           |> to(eq("Request forbidden by administrative rules. " <>
             "Please make sure your request has a User-Agent header " <>
             "(http://developer.github.com/v3/#user-agent-required). " <>
-            "Check https://developer.github.com for other possible causes.\n"))
+            "Check https://developer.github.com for other possible causes."))
       end
     end
 

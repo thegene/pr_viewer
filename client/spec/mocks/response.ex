@@ -1,5 +1,4 @@
 defmodule Mocks.Response do
-  import Poison
 
   defstruct(
     body: "",

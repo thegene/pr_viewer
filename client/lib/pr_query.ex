@@ -1,5 +1,4 @@
 defmodule Client.PrQuery do
-  require Poison
 
   def execute(http \\ HTTPotion) do
     call_api(http)
@@ -7,27 +6,36 @@ defmodule Client.PrQuery do
   end
 
   defp handle_response(%{status_code: status_code, body: body}) do
-    case status_code do
-      200 -> {:ok, parse_pull_requests(body)}
-      _ -> {:error, body}
-    end
+    body
+    |> Poison.decode!
+    |> parse_response_body
+    |> return_response(status_code)
   end
 
   defp handle_response(%{message: _}) do
     {:error, "Query request timed out"}
   end
 
+  defp return_response(body, code) do
+    response_code = case code do
+      200 -> :ok
+      _ -> :error
+    end
+
+    {response_code, body}
+  end
+
+  defp parse_response_body(response) when is_bitstring(response) do
+    response
+    |> String.replace("\n", "")
+  end
+
+  defp parse_response_body(response) when is_map(response) do
+    response["items"]
+  end
+
   defp call_api(http) do
     http.get(url(), headers: headers(), query: query())
-  end
-
-  defp parse_pull_requests(body) do
-    decoded = Poison.decode!(body)
-    Enum.map(decoded["items"], fn(item) -> parse_single(item) end)
-  end
-
-  defp parse_single(item) do
-    item
   end
 
   defp url do
