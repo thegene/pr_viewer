@@ -1,14 +1,14 @@
 Code.require_file("spec/mocks/response.ex")
 
-defmodule Client.PrQuerySpec do
+defmodule Client.PrListSpec do
   use ESpec
 
   alias Mocks.Response
 
   import Double
 
-  context "When I execute a PrQuery" do
-    subject do: Client.PrQuery.execute(http())
+  context "When I fetch a PrList" do
+    subject do: Client.PrList.fetch(http())
 
     let :response, do:
       File.read!(fixture())

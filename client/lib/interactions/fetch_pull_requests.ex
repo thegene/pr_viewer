@@ -1,7 +1,7 @@
 defmodule Client.Interactions.FetchPullRequests do
-  def call(query: query) do
+  def call(list: list) do
 
-    case query.execute() do
+    case list.fetch() do
       {:ok, response} -> {:ok, response}
       _ -> {:error, "Query unsuccessful"}
     end

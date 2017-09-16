@@ -1,6 +1,6 @@
-defmodule Client.PrQuery do
+defmodule Client.PrList do
 
-  def execute(http \\ HTTPotion) do
+  def fetch(http \\ HTTPotion) do
     call_api(http)
     |> handle_response
   end
