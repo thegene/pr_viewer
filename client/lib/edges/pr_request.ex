@@ -16,6 +16,10 @@ defmodule Client.Edges.PrRequest do
     end
   end
 
+  defp parse_api_response(%{message: "req_timedout"}) do
+    {:error_message, "Query request timed out"}
+  end
+
   defp build_response({:ok, api_response}) do
     {:ok, api_response["items"] |> cast_items }
   end
