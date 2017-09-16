@@ -1,18 +1,20 @@
 defmodule Client.PrQuery do
   require Poison
-  require IEx
 
   def execute(http \\ HTTPotion) do
-    response = call_api(http)
-IEx.pry
-    case response.status_code do
-      200 -> {:ok, parse_pull_requests(response.body)}
-      _ -> {:error, response.body}
+    call_api(http)
+    |> handle_response
+  end
+
+  defp handle_response(%{status_code: status_code, body: body}) do
+    case status_code do
+      200 -> {:ok, parse_pull_requests(body)}
+      _ -> {:error, body}
     end
   end
 
-  defp handle_response(response) do
-
+  defp handle_response(%{message: _}) do
+    {:error, "Query request timed out"}
   end
 
   defp call_api(http) do

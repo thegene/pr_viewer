@@ -1,6 +1,10 @@
+Code.require_file("spec/mocks/response.ex")
+
 defmodule Client.PrQuerySpec do
   use ESpec
-  import Poison
+
+  alias Mocks.Response
+
   import Double
 
   context "When I execute a PrQuery" do
@@ -8,12 +12,8 @@ defmodule Client.PrQuerySpec do
 
     let :response, do:
       File.read!(fixture())
-      |> decode_response
+      |> Response.from_json
 
-    def decode_response(encoded) do
-      Poison.decode!(encoded, as: %HTTPotion.Response{})
-    end
-    
     let :http, do:
       HTTPotion
       |> double
@@ -32,7 +32,7 @@ defmodule Client.PrQuerySpec do
       end
 
       it "returns an item with a title" do
-        expect(pr["title"])
+        expect(pr()["title"])
           |> to(eq("Line Number Indexes Beyond 20 Not Displayed"))
       end
     end
