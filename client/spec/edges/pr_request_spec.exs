@@ -1,6 +1,6 @@
 Code.require_file("spec/mocks/response.ex")
 
-defmodule PrRequestSpec do
+defmodule Client.Edges.PrRequestSpec do
   use ESpec
 
   alias Client.Edges
