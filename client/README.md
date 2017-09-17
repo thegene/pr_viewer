@@ -1,19 +1,10 @@
-# GithubClient
+# Client
 
-**TODO: Add description**
+This wraps interactions with the github api into encapsulated modules. The Interactions module contains the main interface to this part of the application.
 
-## Installation
+## Interactions
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `github_client` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:github_client, "~> 0.1.0"}
-  ]
-end
-```
+- `FetchPullRequests` does a simple pull of all of the available pull requests, using no filters or anything. Not super useful beyond MVP.
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
