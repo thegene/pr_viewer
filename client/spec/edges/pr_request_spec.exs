@@ -23,9 +23,13 @@ defmodule PrRequestSpec do
     context "which is successful" do
       let fixture: "spec/fixtures/successful.json"
 
-      it "Returns a PulRequest with a title" do
+      let :items do
         {:ok, items} = subject()
-        [head | _] = items
+        items
+      end
+
+      it "Returns a PulRequest with a title" do
+        [head | _] = items()
 
         expect(head.title)
         |> to(eq("Line Number Indexes Beyond 20 Not Displayed"))
@@ -35,9 +39,13 @@ defmodule PrRequestSpec do
     context "which fails with an error message from github" do
       let fixture: "spec/fixtures/missing-user-agent-error.json"
 
-      it "returns the error message" do
+      let :message do
         {:error, message} = subject()
-        expect(message)
+        message
+      end
+
+      it "returns the error message" do
+        expect(message())
         |> to(eq("Request forbidden by administrative rules. " <>
           "Please make sure your request has a User-Agent header " <>
           "(http://developer.github.com/v3/#user-agent-required). " <>
@@ -49,9 +57,13 @@ defmodule PrRequestSpec do
       let :response, do:
         %HTTPotion.ErrorResponse{message: "req_timedout"}
 
-      it "returns with a timeout message" do
+      let :message do
         {:error, message} = subject()
-        expect(message)
+        message
+      end
+
+      it "returns with a timeout message" do
+        expect(message())
         |> to(eq("Query request timed out"))
       end
     end
