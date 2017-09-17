@@ -1,13 +1,13 @@
 defmodule Client.Interactions.FetchPullRequests do
-  def call(list: list) do
+  def call(list \\ Client.PrList) do
 
-    case list.fetch() do
+    case list.fetch(request: request()) do
       {:ok, response} -> {:ok, response}
       _ -> {:error, "Query unsuccessful"}
     end
   end
 
-  def call do
-    call(query: Client.PrQuery)
+  defp request do
+    Client.Edges.PrRequest
   end
 end

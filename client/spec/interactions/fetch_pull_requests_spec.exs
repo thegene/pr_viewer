@@ -3,11 +3,11 @@ defmodule Client.Interactions.FetchPullRequestsSpec do
   import Double
   alias Client.Interactions
 
-  let :subject, do: Interactions.FetchPullRequests.call(list: list())
+  let :subject, do: Interactions.FetchPullRequests.call(list())
   let :list, do:
     Client.PrList
     |> double
-    |> allow(:fetch, fn() -> {response_code(), response()} end)
+    |> allow(:fetch, fn(_) -> {response_code(), response()} end)
 
   context "when I successfully fetch a list of pull requests" do
     let response_code: :ok, response: []
